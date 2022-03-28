@@ -6,6 +6,8 @@
 #include <time.h>
 #include "pwdgen.h"
 
+#define MAX_LEN 255
+
 const char CHARS[] = "1234567890!$%&=?!_@#<>^*abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
 
 char *pwdgen(uint_fast8_t len) {
@@ -15,7 +17,7 @@ char *pwdgen(uint_fast8_t len) {
 
 	time_t t;
 	uint_fast8_t chars_len = strlen(CHARS);
-	char *pwd = malloc((char)sizeof(len));
+	char *pwd = malloc(sizeof(char) *len);
 
 	srand((unsigned)time(&t));
 
@@ -34,7 +36,12 @@ int main(int argc, char *argv[]) {
 	char *pwd;
 
 	if (argc == 2) {
-		len = (uint_fast8_t)strtol(argv[1], NULL, 10);
+		/* if len is > 255, set it to 255 */
+		if ((uint_fast8_t *)argv[1] > (uint_fast8_t *)MAX_LEN) {
+			len = MAX_LEN;
+		} else {
+			len = (uint_fast8_t)strtol(argv[1], NULL, 10);
+		}
 	} else {
 		len = 16;
 	}
