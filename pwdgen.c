@@ -53,7 +53,9 @@ int main(int argc, char *argv[]) {
 	printf("\n%s\n", pwd);
 
 	/* free pwd only if it exists */
-	if (pwd) { free(pwd); }
+	if (pwd) {
+		free(pwd);
+	}
 
 	return 0;
 }
