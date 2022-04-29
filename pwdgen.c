@@ -32,7 +32,7 @@ char *pwdgen(uint_fast8_t len) {
 
 int main(int argc, char *argv[]) {
 
-	uint_fast8_t len; /* 16 */
+	uint_fast8_t len; /* default password length: 16 */
 	char *pwd;
 
 	if (argc == 2) {
