@@ -8,7 +8,7 @@
 
 #define MAX_LEN 255
 
-const char CHARS[] = "1234567890!$%&=?!_@#<>^*abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
+const char chars[] = "1234567890!$%&=?!_@#<>^*abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
 
 char *pwdgen(uint_fast8_t len) {
 
@@ -16,14 +16,14 @@ char *pwdgen(uint_fast8_t len) {
 	sleep(1);
 
 	time_t t;
-	uint_fast8_t chars_len = strlen(CHARS);
+	uint_fast8_t chars_len = strlen(chars);
 	char *pwd = malloc(sizeof(char) *len);
 
 	srand((unsigned)time(&t));
 
-	/* assigns a char from a random position of CHARS to pwd[i] */
+	/* assigns a char from a random position of chars to pwd[i] */
 	for (size_t i = 0; i < len; i++) {
-		pwd[i] = CHARS[rand() % chars_len];
+		pwd[i] = chars[rand() % chars_len];
 	}
 
 	/* return the password */
