@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 	if (argc == 2) {
 		/* if len is > 255, set it to 255 */
 		if ((uint_fast8_t *)argv[1] > (uint_fast8_t *)MAX_LEN) {
-			len = MAX_LEN;
+			len = MAX_LEN; /* password length: 255 */
 		} else {
 			len = (uint_fast8_t)strtol(argv[1], NULL, 10);
 		}
