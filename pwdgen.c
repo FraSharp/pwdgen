@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 	/* print the actual password */
 	printf("\n%s\n", pwd);
 
-	/* free pwd only if it exists */
+	/* free pwd only if it isn't NULL */
 	if (pwd) {
 		free(pwd);
 	}
