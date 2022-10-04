@@ -10,7 +10,8 @@
 
 const char chars[] = "1234567890!$%&=?!_@#<>^*abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
 
-char *pwdgen(uint_fast8_t len) {
+char *pwdgen(uint_fast8_t len)
+{
 
 	/* to generate a completely random number and different from the latest */
 	sleep(1);
@@ -23,21 +24,22 @@ char *pwdgen(uint_fast8_t len) {
 
 	/* assigns a char from a random position of chars to pwd[i] */
 	for (size_t i = 0; i < len; i++) {
-		pwd[i] = chars[rand() % chars_len];
+		pwd[i] = chars[arc4random() % chars_len];
 	}
 
 	/* return the password */
 	return pwd;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
 	uint_fast8_t len; /* default password length: 16 */
 	char *pwd;
 
 	if (argc == 2) {
 		/* if len is > 255, set it to 255 */
-		if ((uint_fast8_t *)argv[1] > (uint_fast8_t *)MAX_LEN) {
+		if (strtol(argv[1], NULL, 10) > MAX_LEN) {
 			len = MAX_LEN; /* password length: 255 */
 		} else {
 			len = (uint_fast8_t)strtol(argv[1], NULL, 10);
