@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
+#include <math.h>
 #include "pwdgen.h"
 
 #define MAX_LEN 255
@@ -23,12 +24,20 @@ char *pwdgen(uint_fast8_t len)
 	srand((unsigned)time(&t));
 
 	/* assigns a char from a random position of chars to pwd[i] */
-	for (size_t i = 0; i < len; i++) {
-		pwd[i] = chars[arc4random() % chars_len];
+	for (size_t i = 0; i < len; i++)
+	{
+		do {
+			pwd[i] = chars[arc4random() % chars_len];
+		} while (pwd[i] == pwd[i - 1] && strlen(pwd) > 0);
 	}
 
 	/* return the password */
 	return pwd;
+}
+
+float calc_entropy(uint_fast8_t byte_count, uint_fast8_t pw_len)
+{
+	return pw_len * log(byte_count)/log(2);
 }
 
 int main(int argc, char *argv[])
@@ -52,7 +61,8 @@ int main(int argc, char *argv[])
 	pwd = pwdgen(len);
 
 	/* print the actual password */
-	printf("\n%s\n", pwd);
+	printf("\nthe generated password is: %s\n", pwd);
+	printf("\nthe entropy of the generated password is: %.2f\n\n", calc_entropy(strlen(chars), len));
 
 	/* free pwd only if it isn't NULL */
 	if (pwd) {
