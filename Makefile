@@ -1,18 +1,21 @@
 CC 	:= clang
 LD 	:= lld
+INPUT   := pwdgen.c
 OUTPUT 	:= pwdgen
 BIN	:= /usr/local/bin
 
 pwdgen: pwdgen.c
-	$(CC) -fuse-ld=$(LD) pwdgen.c -o $(OUTPUT) -pedantic -W{error,all,extra,abi} --std=c11 -xc \
-		-lpthread -Ofast -march=native -pipe
+	$(CC) -fuse-ld=$(LD) $(INPUT) -o $(OUTPUT)
+
+debug: pwdgen.c
+	$(CC) -fuse-ld=$(LD) $(INPUT) -o $(OUTPUT) -pedantic -W{error,all,extra,abi} --std=c11
 
 clean:
 	-rm $(OUTPUT)
 
 install: $(OUTPUT)
 	mkdir -p $(BIN)
-	sudo install -Dm755 $(OUTPUT) $(BIN)
+	sudo install -m755 $(OUTPUT) $(BIN)
 
 uninstall: $(OUTPUT)
 	sudo rm $(BIN)/$(OUTPUT)
