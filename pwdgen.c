@@ -7,8 +7,14 @@
 #include "pwdgen.h"
 
 #define MAX_LEN 255
+#define MAX_PWDS 16
 
 const char chars[] = "1234567890!$%&=?_@#<>^*+-,.:;()[]{}/|abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
+
+int pwd_len(uint_fast8_t len)
+{
+	return (len > MAX_LEN) ? MAX_LEN : len;
+}
 
 char *pwdgen(uint_fast8_t len)
 {
@@ -42,34 +48,28 @@ float calc_entropy(uint_fast8_t byte_count, uint_fast8_t pw_len)
 int main(int argc, char *argv[])
 {
 
-	uint_fast8_t len; /* default password length: 20 */
+	uint_fast8_t len = 20; /* default password length: 20 */
+	uint_fast8_t pwds_cnt = 1;
 	char *pwd;
 
 	switch (argc) {
 		case 2:
-			/* if len is > 255, set it to 255 */
-			if (strtol(argv[1], NULL, 10) > MAX_LEN) {
-				len = MAX_LEN; /* password length: 255 */
-			} else {
-				len = (uint_fast8_t)strtol(argv[1], NULL, 10);
-			}
+			len = pwd_len(strtol(argv[1], NULL, 10));
 			break;
-		default:
-			len = 20;
+		case 3:
+			len = pwd_len(strtol(argv[1], NULL, 10));
+			pwds_cnt = (strtol(argv[2], NULL, 10) > MAX_PWDS) ? MAX_PWDS : (uint_fast8_t)strtol(argv[2], NULL, 10);
 			break;
 	}
 
-	/* don't print pwdgen(len) directly to avoid memory leaks due malloc() */
-	pwd = pwdgen(len);
+	for (int i = 0; i < pwds_cnt; i++) {
+		pwd = pwdgen(len);
 
-	/* print the actual password */
-	printf("\nthe generated password is: %s\n", pwd);
-	printf("\nthe entropy of the generated password is: %.2f bits\n\n", calc_entropy(strlen(chars), len));
-
-	/* free pwd only if it isn't NULL */
-	if (pwd) {
+		printf("\npassword #%d: \t%s", i + 1, pwd);
 		free(pwd);
 	}
+
+	printf("\n\nthe entropy of the generated password(s) is: %.2f bits\n\n", calc_entropy(strlen(chars), len));
 
 	return 0;
 }
