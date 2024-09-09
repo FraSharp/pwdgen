@@ -42,18 +42,21 @@ float calc_entropy(uint_fast8_t byte_count, uint_fast8_t pw_len)
 int main(int argc, char *argv[])
 {
 
-	uint_fast8_t len; /* default password length: 16 */
+	uint_fast8_t len; /* default password length: 20 */
 	char *pwd;
 
-	if (argc == 2) {
-		/* if len is > 255, set it to 255 */
-		if (strtol(argv[1], NULL, 10) > MAX_LEN) {
-			len = MAX_LEN; /* password length: 255 */
-		} else {
-			len = (uint_fast8_t)strtol(argv[1], NULL, 10);
-		}
-	} else {
-		len = 21;
+	switch (argc) {
+		case 2:
+			/* if len is > 255, set it to 255 */
+			if (strtol(argv[1], NULL, 10) > MAX_LEN) {
+				len = MAX_LEN; /* password length: 255 */
+			} else {
+				len = (uint_fast8_t)strtol(argv[1], NULL, 10);
+			}
+			break;
+		default:
+			len = 20;
+			break;
 	}
 
 	/* don't print pwdgen(len) directly to avoid memory leaks due malloc() */
