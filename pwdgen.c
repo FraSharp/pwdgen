@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 			len = (uint_fast8_t)strtol(argv[1], NULL, 10);
 		}
 	} else {
-		len = 16;
+		len = 21;
 	}
 
 	/* don't print pwdgen(len) directly to avoid memory leaks due malloc() */
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 
 	/* print the actual password */
 	printf("\nthe generated password is: %s\n", pwd);
-	printf("\nthe entropy of the generated password is: %.2f\n\n", calc_entropy(strlen(chars), len));
+	printf("\nthe entropy of the generated password is: %.2f bits\n\n", calc_entropy(strlen(chars), len));
 
 	/* free pwd only if it isn't NULL */
 	if (pwd) {
