@@ -9,7 +9,7 @@
 
 #define MAX_LEN 255
 
-const char chars[] = "1234567890!$%&=?!_@#<>^*abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
+const char chars[] = "1234567890!$%&=?_@#<>^*+-,.:;()[]{}/|abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
 
 char *pwdgen(uint_fast8_t len)
 {
