@@ -54,7 +54,14 @@ int main(int argc, char *argv[])
 
 	switch (argc) {
 		case 2:
-			len = pwd_len(strtol(argv[1], NULL, 10));
+			if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0) {
+				printf("pwdgen: version 1.0\n");
+				exit(0);
+			}
+
+			if (strtol(argv[1], NULL, 10) > 0) {
+				len = pwd_len(strtol(argv[1], NULL, 10));
+			}
 			break;
 		case 3:
 			len = pwd_len(strtol(argv[1], NULL, 10));
