@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
 
 	uint_fast8_t len = 20; /* default password length: 20 */
 	uint_fast8_t pwds_cnt = 1;
+	float e_bits;
 	char *pwd;
 
 	switch (argc) {
@@ -76,7 +77,8 @@ int main(int argc, char *argv[])
 		free(pwd);
 	}
 
-	printf("\n\nthe entropy of the generated password(s) is: %.2f bits\n\n", calc_entropy(strlen(chars), len));
+	e_bits = calc_entropy(strlen(chars), len);
+	printf("\n\nthe entropy of the generated password(s) is: %.2f bits. roughly %.1f guesses. \n\n", e_bits, pow(2, e_bits));
 
 	return 0;
 }
