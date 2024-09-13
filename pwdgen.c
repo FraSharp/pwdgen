@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 	switch (argc) {
 		case 2:
 			if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0) {
-				printf("pwdgen: version 1.0\n");
+				printf("pwdgen: version 1.a\n");
 				exit(0);
 			}
 
