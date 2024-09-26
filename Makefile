@@ -8,7 +8,7 @@ pwdgen: pwdgen.c
 	$(CC) -fuse-ld=$(LD) $(INPUT) -o $(OUTPUT)
 
 debug: pwdgen.c
-	$(CC) -fuse-ld=$(LD) $(INPUT) -o $(OUTPUT) -pedantic -W{error,all,extra,abi} --std=c11
+	$(CC) -fuse-ld=$(LD) $(INPUT) -o $(OUTPUT) -g -pedantic -W{error,all,extra,abi} --std=c11
 
 clean:
 	-rm $(OUTPUT)
