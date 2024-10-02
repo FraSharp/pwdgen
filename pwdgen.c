@@ -72,6 +72,7 @@ char *pwdgen(uint_fast8_t len)
 
 	/* null terminate password */
 	pwd[len] = '\0';
+
 	/* return the password */
 	return pwd;
 }
@@ -84,13 +85,12 @@ float calc_entropy(uint_fast8_t byte_count, uint_fast8_t pw_len)
 int main(int argc, char *argv[])
 {
 
-	uint_fast8_t len = 20; /* default password length: 20 */
-	uint_fast8_t pwds_cnt = 1; /* default generated passwords: 1 */
+	uint_fast8_t len = 20;	   /* default password length: 20 */
+	uint_fast8_t pwds_cnt = 3; /* default generated passwords: 1 */
 	uint_fast8_t lower = 1, upper = 1, digit = 1, special = 1;
 	int_fast8_t c;
 	float e_bits;
 	char *pwd;
-	char *lvalue = NULL, *pvalue = NULL;
 
 	static struct option long_options[] = {
 		 {0, 0, 0, 0}
@@ -98,19 +98,30 @@ int main(int argc, char *argv[])
 
 	while ((c = getopt_long(argc, argv, "vl:p:uLdsh", long_options, NULL)) != -1) {
 	switch (c) {
+		case 'h':
+			printf("Usage: %s [-v] [-l length of password] [-p number of passwords] [-u no uppercase] [-L no lowercase] -[d no digits] [-s no specials]\n", argv[0]);
+			printf("Options:\n");
+			printf("  -v              Show version information.\n");
+			printf("  -l length       Specify password length (default: %d).\n", len);
+			printf("  -p count        Number of passwords to generate (default: %d, max: %d).\n", pwds_cnt, MAX_PWDS);
+			printf("  -u              Exclude uppercase characters.\n");
+			printf("  -L              Exclude lowercase characters.\n");
+			printf("  -d              Exclude digits.\n");
+			printf("  -s              Exclude special characters.\n");
+			exit(EXIT_SUCCESS);
+			break;
+
 		case 'v':
-			printf("pwdgen: version 1.b\n");
+			printf("pwdgen: version 1.c\n");
 			exit(0);
 			break;
 		case 'l':
-			lvalue = optarg;
-			if (strtol(lvalue, NULL, 10) > 0) {
-				len = pwd_len(strtol(lvalue, NULL, 10));
+			if (strtol(optarg, NULL, 10) > 0) {
+				len = pwd_len(strtol(optarg, NULL, 10));
 			}
 			break;
 		case 'p':
-			pvalue = optarg;
-			pwds_cnt = (strtol(pvalue, NULL, 10) > MAX_PWDS) ? MAX_PWDS : (uint_fast8_t)strtol(pvalue, NULL, 10);
+			pwds_cnt = (strtol(optarg, NULL, 10) > MAX_PWDS) ? MAX_PWDS : (uint_fast8_t)strtol(optarg, NULL, 10);
 			break;
 		case 'u':
 			upper = 0;
@@ -123,18 +134,6 @@ int main(int argc, char *argv[])
 			break;
 		case 's':
 			special = 0;
-			break;
-		case 'h':
-			printf("Usage: %s [-v] [-l length of password] [-p number of passwords] [-u no uppercase] [-L no lowercase] -[d no digits] [-s no specials]\n", argv[0]);
-			printf("Options:\n");
-			printf("  -v              Show version information.\n");
-			printf("  -l length       Specify password length (default: 20).\n");
-			printf("  -p count        Number of passwords to generate (default: 1, max: %d).\n", MAX_PWDS);
-			printf("  -u              Exclude uppercase characters.\n");
-			printf("  -L              Exclude lowercase characters.\n");
-			printf("  -d              Exclude digits.\n");
-			printf("  -s              Exclude special characters.\n");
-			exit(EXIT_SUCCESS);
 			break;
 		default:
 			break;
